@@ -6,27 +6,33 @@
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#0D1321">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    function isPortraitAndNotPWA() {
-  // Check if it's in portrait mode
-  const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+  <style>
+    /* Set the iframe to have a dynamic height based on viewport */
+    iframe {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
+   <script>
+    function adjustIframeHeight() {
+      const iframe = document.getElementById('myIframe');
+      const windowHeight = window.innerHeight;
+      iframe.style.height = `${windowHeight}px`;
+    }
 
-  // Check if the app is a PWA
-  const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    // Adjust iframe height when the page loads and on resize
+    window.addEventListener('load', adjustIframeHeight);
+    window.addEventListener('resize', adjustIframeHeight);
 
-  return isPortrait && !isPWA; // Return true if in portrait and not a PWA
-}
-
-// Apply styles when the conditions are met
-if (isPortraitAndNotPWA()) {
-  document.body.querySelector('iframe').style.height="90vh !important"; 
-}
+    // Optional: Also check when orientation changes (portrait/landscape)
+    window.addEventListener('orientationchange', adjustIframeHeight);
+  </script>
 
     
-  </script>
 </head>
 <body>
-  <iframe style="position: absolute; left: 0; top: 0; border: 0px solid black; width: 100vw; height: 100vh" src="https://script.google.com/macros/s/AKfycbxEBAgWgt4-drwy39igXN0AceBhOQZh8WMRPG6T06IWScy1vvn4d1DK3Ee1ttIcG3mu/exec"></iframe>
+  <iframe id="myIframe" style="position: absolute; left: 0; top: 0; border: 0px solid black; width: 100vw; height: 100vh" src="https://script.google.com/macros/s/AKfycbxEBAgWgt4-drwy39igXN0AceBhOQZh8WMRPG6T06IWScy1vvn4d1DK3Ee1ttIcG3mu/exec"></iframe>
   <script>
     // Register service worker for PWA
     if ('serviceWorker' in navigator) {
