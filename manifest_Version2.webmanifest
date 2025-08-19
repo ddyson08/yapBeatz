@@ -1,0 +1,21 @@
+{
+  "name": "yapBeatz",
+  "short_name": "yapBeatz",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#222222",
+  "theme_color": "#222222",
+  "description": "yapBeatz by FM Da$ani",
+  "icons": [
+    {
+      "src": "fyav.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "fyav.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
