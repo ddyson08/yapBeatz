@@ -20,7 +20,7 @@
       background-color: #0D1321;
       width: 100vw;
       height: 100vh;
-      /* overflow: hidden; */ /* Commented out for better mobile keyboard handling */
+      overflow: hidden;
     }
     /* Set the iframe to have a dynamic height based on viewport */
     iframe {
@@ -30,32 +30,6 @@
       background-color: #0D1321;
     }
   </style>
-  <script>
-    function adjustIframeHeight() {
-      const iframe = document.getElementById('myIframe');
-      if (window.visualViewport) {
-        iframe.style.height = window.visualViewport.height + 'px';
-      } else {
-        iframe.style.height = window.innerHeight + 'px';
-      }
-    }
-
-    // Adjust iframe height on various events
-    window.addEventListener('load', adjustIframeHeight);
-    window.addEventListener('resize', adjustIframeHeight);
-    window.addEventListener('orientationchange', adjustIframeHeight);
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', adjustIframeHeight);
-      window.visualViewport.addEventListener('scroll', adjustIframeHeight);
-    }
-
-    // iOS-specific fix: recalculate after keyboard closes
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      window.addEventListener('focusout', () => {
-        setTimeout(adjustIframeHeight, 100);
-      });
-    }
-  </script>
 </head>
 <body>
   <iframe id="myIframe" style="position: absolute; left: 0; top: 0; border: 0px solid black; width: 100vw; height: 100vh"
