@@ -9,50 +9,57 @@
   <link rel="icon" type="image/x-icon" href="fyav.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#0D1321">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="apple-touch-icon" href="fyav.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <!-- All your apple-touch-startup-image links remain unchanged for device compatibility -->
   <!-- ... (startup images not repeated for brevity) ... -->
   <style>
-    html, body {
+    body{
       background-color: #0D1321;
       width: 100vw;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
+      height: 100vh;
       /* overflow: hidden; */ /* Commented out for better mobile keyboard handling */
     }
-    #iframe-container {
-      width: 100vw;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      /* Use relative positioning to allow normal viewport flow */
-      position: relative;
-      background-color: #0D1321;
-    }
+    /* Set the iframe to have a dynamic height based on viewport */
     iframe {
-      width: 100vw;
-      min-height: 100vh;
+      width: 100%;
       border: none;
       display: block;
       background-color: #0D1321;
-      margin: 0;
-      padding: 0;
-      /* Remove absolute/fixed positioning for normal keyboard behavior */
-      /* position: absolute; left: 0; top: 0; */
     }
   </style>
+  <script>
+    function adjustIframeHeight() {
+      const iframe = document.getElementById('myIframe');
+      if (window.visualViewport) {
+        iframe.style.height = window.visualViewport.height + 'px';
+      } else {
+        iframe.style.height = window.innerHeight + 'px';
+      }
+    }
+
+    // Adjust iframe height on various events
+    window.addEventListener('load', adjustIframeHeight);
+    window.addEventListener('resize', adjustIframeHeight);
+    window.addEventListener('orientationchange', adjustIframeHeight);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', adjustIframeHeight);
+      window.visualViewport.addEventListener('scroll', adjustIframeHeight);
+    }
+
+    // iOS-specific fix: recalculate after keyboard closes
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.addEventListener('focusout', () => {
+        setTimeout(adjustIframeHeight, 100);
+      });
+    }
+  </script>
 </head>
 <body>
-  <div id="iframe-container">
-    <iframe
-      id="myIframe"
-      src="https://script.google.com/macros/s/AKfycbxEBAgWgt4-drwy39igXN0AceBhOQZh8W[...]">
-    </iframe>
-  </div>
+  <iframe id="myIframe" style="position: absolute; left: 0; top: 0; border: 0px solid black; width: 100vw; height: 100vh"
+    src="https://script.google.com/macros/s/AKfycbxEBAgWgt4-drwy39igXN0AceBhOQZh8W[...]"></iframe>
   <script>
     // Register service worker for PWA
     if ('serviceWorker' in navigator) {
@@ -60,7 +67,6 @@
         navigator.serviceWorker.register('service-worker.js');
       });
     }
-    // No JS resizing! Let the browser handle the viewport.
   </script>
 </body>
 </html>
